@@ -7,6 +7,8 @@ from random import randint
 # DONE Force character creation until X successive characters
 # Try to blit on arbitrary positions (instead of char)
 # DONE Debug chain generation
+# Add sentences to display in an external file
+
 class Column:
     def __init__(self, height):
         # TODO: chance of having blank (markov chain)
