@@ -74,50 +74,52 @@ class Column:
         return chr(randint(65, 122))
 
 
-w, h = 100, 100
+def libtcod_display():
+    w, h = 100, 100
 
-libtcod.console_set_custom_font('Anikki_square_8x8.png', libtcod.FONT_LAYOUT_ASCII_INROW)
-libtcod.console_init_root(w, h, 'Test', False)
-con = libtcod.console_new(w, h)
-libtcod.console_set_default_foreground(con, libtcod.green)
+    libtcod.console_set_custom_font('Anikki_square_8x8.png', libtcod.FONT_LAYOUT_ASCII_INROW)
+    libtcod.console_init_root(w, h, 'Test', False)
+    con = libtcod.console_new(w, h)
+    libtcod.console_set_default_foreground(con, libtcod.dark_green)
 
-# libtcod.console_put_char(con, 5, 5, 'A')
-
-libtcod.console_blit(con, 0, 0, w, h, 0, 0, 0)
-libtcod.console_flush()
-
-key = libtcod.Key()
-
-columns = [Column(h) for i in range(w)]
-
-ticks = 0
-lowest_speed = 11
-
-while not libtcod.console_is_window_closed():
-    libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS, key, None)
-    if key.vk == libtcod.KEY_ESCAPE:
-        break
-
-
-    for i, column in enumerate(columns):
-        if ticks != 0 and column.speed % ticks == 0:
-            for j, char in enumerate(column.characters):
-                libtcod.console_put_char(con, i, j, char)
-
-            column.go_down()
-
-        else:
-            column.current_ticks += 1
-
+    # libtcod.console_put_char(con, 5, 5, 'A')
 
     libtcod.console_blit(con, 0, 0, w, h, 0, 0, 0)
     libtcod.console_flush()
-    sleep(0.01)
-    ticks += 1
-    if ticks > lowest_speed:
-        ticks = 0
+
+    key = libtcod.Key()
+
+    columns = [Column(h) for i in range(w)]
+
+    ticks = 0
+    lowest_speed = 11
+
+    while not libtcod.console_is_window_closed():
+        libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS, key, None)
+        if key.vk == libtcod.KEY_ESCAPE:
+            break
 
 
+        for i, column in enumerate(columns):
+            if ticks != 0 and column.speed % ticks == 0:
+                for j, char in enumerate(column.characters):
+                    libtcod.console_put_char(con, i, j, char)
+
+                column.go_down()
+
+            else:
+                column.current_ticks += 1
+
+
+        libtcod.console_blit(con, 0, 0, w, h, 0, 0, 0)
+        libtcod.console_flush()
+        sleep(0.01)
+        ticks += 1
+        if ticks > lowest_speed:
+            ticks = 0
+
+if __name__ == '__main__':
+    libtcod_display()
 
 
 
